@@ -19,13 +19,22 @@ defmodule DistributedCounter do
 
   @impl true
   def handle_call({:increment, {count, labels}}, _from, state) do
-    new_state =
-      labels
-      |> Enum.reduce(state, fn label, acc ->
-        Map.update(acc, label, count, &(&1 + count))
-      end)
-
+    new_state = update_state(state, {count, labels})
     {:reply, new_state, new_state}
+  end
+
+  @impl true
+  def handle_cast({:increment, {count, labels}}, state) do
+    new_state = update_state(state, {count, labels})
+    {:noreply, new_state}
+  end
+
+  defp update_state(current_state, {count, labels}) do
+    labels
+    |> Enum.map(&String.to_atom(&1))
+    |> Enum.reduce(current_state, fn label, acc ->
+      Map.update(acc, label, count, &(&1 + count))
+    end)
   end
 
   def via_tuple(id) do
