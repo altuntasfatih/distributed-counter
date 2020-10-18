@@ -4,7 +4,7 @@ defmodule DistributedCounter do
 
   def start_link(state) do
     Logger.info("Counter is starting")
-    GenServer.start_link(__MODULE__, state, name: via_tuple(:counter))
+    GenServer.start_link(__MODULE__, state, name: {:global, __MODULE__})
   end
 
   @impl true
@@ -37,15 +37,15 @@ defmodule DistributedCounter do
     end)
   end
 
-  def via_tuple(id) do
-    DistributedCounter.ProcessRegistry.via_tuple({__MODULE__, id})
+  def via_tuple() do
+    :global.whereis_name(__MODULE__)
   end
 
   def get() do
-    GenServer.call(via_tuple(:counter), :get)
+    GenServer.call(via_tuple(), :get)
   end
 
   def increment(count, labels) do
-    GenServer.call(via_tuple(:counter), {:increment, {count, labels}})
+    GenServer.call(via_tuple(), {:increment, {count, labels}})
   end
 end
