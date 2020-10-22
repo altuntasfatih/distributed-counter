@@ -7,6 +7,7 @@ defmodule DistributedCounter.Application do
 
   def start(_type, _args) do
     children = [
+      DistributedCounter.DiscoverySupervisor,
       DistributedCounter.DynamicSupervisor,
       DistributedCounterWeb.Endpoint
     ]

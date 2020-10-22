@@ -1,4 +1,4 @@
-defmodule DistributedCounter.ProcessSupervisor do
+defmodule DistributedCounter.DiscoverySupervisor do
   use Supervisor
   require Logger
 
@@ -9,10 +9,7 @@ defmodule DistributedCounter.ProcessSupervisor do
 
   @impl true
   def init(:ok) do
-    children = [
-      {DistributedCounter, %{}}
-    ]
-
+    children = [{DistributedCounter.Discovery,:ok}]
     Supervisor.init(children, strategy: :one_for_one)
   end
 end
