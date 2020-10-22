@@ -38,7 +38,14 @@ defmodule DistributedCounter do
   end
 
   def via_tuple() do
-    :global.whereis_name(__MODULE__)
+    case :global.whereis_name(__MODULE__) do
+      pid when is_pid(pid) ->
+        pid
+
+      _ ->
+        {:ok, pid} = DistributedCounter.DynamicSupervisor.create_counter()
+        pid
+    end
   end
 
   def get() do
