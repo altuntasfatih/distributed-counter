@@ -2,7 +2,7 @@ defmodule DistributedCounter.Discovery do
   use GenServer
   require Logger
 
-  @period 30_000
+  @period 5_000
   def start_link(:ok) do
     state =
       Application.get_env(:distributed_counter, :discovery)
