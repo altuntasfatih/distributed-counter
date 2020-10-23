@@ -9,5 +9,6 @@ defmodule DistributedCounterWeb.Router do
     pipe_through :api
     get "/", CounterController, :index
     post "/", CounterController, :increment
+    get "/query", CounterController, :get
   end
 end
