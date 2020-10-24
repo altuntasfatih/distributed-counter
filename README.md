@@ -1,18 +1,15 @@
 # DistributedCounter
+İt is poc how to implement distributed counter on elixir(erlang vm).
 
-To start your Phoenix server:
-
+## To setup
   * Install dependencies with `mix deps.get`
-  * Start Phoenix endpoint with `mix phx.server`
+  * Test with  `mix test`
 
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-Ready to run in production? Please [check our deployment guides](https://hexdocs.pm/phoenix/deployment.html).
-
-## Learn more
-
-  * Official website: https://www.phoenixframework.org/
-  * Guides: https://hexdocs.pm/phoenix/overview.html
-  * Docs: https://hexdocs.pm/phoenix
-  * Forum: https://elixirforum.com/c/phoenix-forum
-  * Source: https://github.com/phoenixframework/phoenix
+### To run 
+ * Start Appllication with `./run.sh` it starts three phoenix server from 4000 to 4002
+ 
+### Endpoints
+* GET   /metrics                                           -> Get current state of counter.
+* POST  /metrics                                           -> Increment counter.
+* GET   /metrics/query?expression=                         -> Query for counterlabes.
+<br> Not -> `test.sh and test_distributed.sh` contains curl requests to test endpoints.
