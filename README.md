@@ -28,14 +28,14 @@ Until this stage Counter only works one node not distributed.
 **I met a few challenges to run distributed it**
 
 1. Counter's state must be consistent so I think should one process handle it. But the nodes which don't have counter process must know Pid to reach it and nodes must be connected already each others.
-2. I know erlang nodes can easily connect each other But I need auto discovery and connection mechanism Otherwise connection each other manually not feasible.(try to connect each node Node.ping(1),Node.ping(2) ...)
+2. I know erlang nodes can easily connect each other But I need auto discovery and connection mechanism Otherwise connection each other manually not feasible.(try to connect each node Node.ping(1),Node.ping(2) ...) 
 3. Which node should hold Counter process and how it should be started ? If all nodes start counter process and register global, connection each other cause conflict therefore cannot connect.
 
-* To handle first challenge, I have decided use erlang global name registration facility that provides distributed name registry. Process registry only support local therefore ı had removed it.
+* To cope with first challenge, I have decided to use erlang global name registration facility that provides distributed name registry. In contrast Registry module is not cluster aware registry therefore I removed it.(Process Discovery)
 
-* To handle second challenge, I have implemented scheduled jobs that read other nodes info from config and try discovery and connect nodes in  interval.This process starts before phoenix server started.
+* To handle second challenge, I have implemented a scheduled job that read cluster info from config and try discovery and connect nodes in interval.It starts before phoenix server started.
 
-* To handle third challenge. I have decided counter process should not start auto when server is started Therefore I have changed it's supervisor to dynamic. When first request come, The Node try to find counter process in global registry. if not exist, it creates and register globally.
+* For last challenge. I have decided the counter process should not start auto when server is started Therefore I have changed it's supervisor to dynamic. When first request come, The Node try to find counter process in global registry. if not exist, it creates and registers globally.
 
 ### Assessment
 Yeap I know this is not perfect and autonomous solution because it depends many things.
