@@ -39,4 +39,3 @@ Until this stage, Counter only works one node not distributed.
 
 ### Assessment
 Yeap, I know this is not a perfect and autonomous solution because it depends on many things.
-There are many alternative solutions for challenges which are I have met. But with other exercises such as Distributed Morse Decoder and Queen Attack, I have a plan to solve different ways them if I find time :)
